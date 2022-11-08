@@ -1,0 +1,11 @@
+Dumitrescu Andrei 341C1
+
+AM considerat pentru acest exercitiu ca toate intrarile sunt valide.
+Pentru fiecare conexiune, fac XOR intre input is output.
+bitii numarului rezultat reprezinta tipul de transmirie: 0 => DIRECTA, 1=> INDIRECTA
+
+La fiecare pas se face o translatie a intrarilor si afisam ce tip de transmitie este.
+
+Pentru rulare: make build apoi make run si se introduc datele.
+
+Totul este numerotat de la 0;

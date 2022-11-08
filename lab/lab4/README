@@ -1,0 +1,6 @@
+Dumitrescu Andrei 341C1
+
+Initial generez reteaua si fac orice tip de conexiune ca fiind inexistenta.
+
+In functie de inputul oferit, fac backtracking si aflu exact ce tip de comutatie este.
+Astefel voi modifica si tipul retelei pentru a fi valida pentru alte inputuri.
