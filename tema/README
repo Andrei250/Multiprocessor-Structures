@@ -1,0 +1,18 @@
+Pthreads e jalnic
+opneMP e bun ( mai da rateuri )
+hybrid nu merge
+
+Dumitrescu Andrei 341C1
+
+Am ales problema CocktailSort
+
+Pentru MPI:
+- Am impartit procesele in Master si Workers.
+- Masterul se ocupa de citirea initiala a vectorului. Apoi el va imparti la workeri
+treaba in functie de indexul acestora. Trimite doar bucata de vector care trebuie sortata.
+- Fiecare worker aduce cel mai mare element din array la final si cel mai mic la inceput
+apoi transmit inapoi la master bucata de array modificat.
+- Masterul ia maximul dintre acestea si il pune la final si minimul il pune la inceput. 
+Apoi verifica daca au fost facute schimbari si le transmite workerilor daca trebuie
+sa continue.
+- La final nodul master afiseaza rezultatul.

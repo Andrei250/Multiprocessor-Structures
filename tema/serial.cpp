@@ -4,6 +4,7 @@
 using namespace std;
 
 ifstream f("input.txt");
+ofstream g("serial.txt");
 
 int a[1000001];
 int n;
@@ -49,8 +50,8 @@ void CocktailSort(int a[], int n)
 void printArray(int a[], int n)
 {
     for (int i = 0; i < n; i++)
-        printf("%d ", a[i]);
-    printf("\n");
+        g << a[i] << " ";
+    g << '\n';
 }
 
 void read()
@@ -72,7 +73,7 @@ int main()
 
     t1 = omp_get_wtime() - t1;
 
-    cout << "Timp de executie sortare:" << t1 << '\n';
+    g << "Timp de executie sortare:" << t1 << '\n';
 
     printArray(a, n);
     return 0;

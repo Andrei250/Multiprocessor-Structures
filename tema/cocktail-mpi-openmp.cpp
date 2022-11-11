@@ -7,6 +7,8 @@
 using namespace std;
 
 ifstream f("input.txt");
+ofstream g("hybrid.txt");
+
 
 int a[1000001];
 int n;
@@ -18,8 +20,8 @@ MPI_Status status;
 void printArray(int a[], int n)
 {
     for (int i = 0; i < n; i++)
-        cout << a[i] << " ";
-    cout << '\n';
+        g << a[i] << " ";
+    g << '\n';
 }
 
 void read()

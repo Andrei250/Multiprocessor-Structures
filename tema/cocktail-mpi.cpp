@@ -6,6 +6,8 @@
 using namespace std;
 
 ifstream f("input.txt");
+ofstream g("mpi.txt");
+
 
 int a[1000001];
 int n;
@@ -14,13 +16,15 @@ int processes, process_id;
 int swapped = 1;
 MPI_Status status;
 
+// functie care afiseaza vectorul
 void printArray(int a[], int n)
 {
     for (int i = 0; i < n; i++)
-        cout << a[i] << " ";
-    cout << '\n';
+        g << a[i] << " ";
+    g << '\n';
 }
 
+// functia de citire din fisier
 void read()
 {
     f >> n;
@@ -31,6 +35,15 @@ void read()
     }
 }
 
+// nodul master care care este responsabil de divizarea
+// taskurilor.
+// Proceselor ramase le este trimis o parte din vectorul principal
+// si numarul de elemente.
+// Acestea aduc pe ultima pozitie cel mai mare element din bucata lor si pe
+// prima pozitie cel mai mic. La final, trimit inapoi la nodul master
+// bucata lor, iar nodul master ia maximul de pe fiecare bucata si minimul si
+// le pune pe ultima, respectiv prima pozitie. Apoi le trimite workerilor
+// un semnal daca mai trebuie sa continue.
 void masterNode()
 {
     read();
@@ -122,6 +135,8 @@ void masterNode()
     printArray(a, n);
 }
 
+// Nodul worker care pune maximul din bucata lui la finalul array-ului si 
+// minimul la inceputul array-ului
 void workerNode()
 {
     int left, right;
@@ -159,6 +174,7 @@ void workerNode()
     }
 }
 
+// pornim procesele
 int main(int argc, char *argv[])
 {
     MPI_Init(&argc, &argv);

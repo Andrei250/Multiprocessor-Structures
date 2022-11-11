@@ -6,6 +6,7 @@
 using namespace std;
 
 ifstream f("input.txt");
+ofstream g("pthreads.txt");
 
 int a[1000001];
 int n;
@@ -18,8 +19,8 @@ pthread_mutex_t mtx;
 void printArray(int a[], int n)
 {
     for (int i = 0; i < n; i++)
-        cout << a[i] << " ";
-    cout << '\n';
+        g << a[i] << " ";
+    g << '\n';
 }
 
 void *CocktailSort(void *arg)
@@ -62,7 +63,7 @@ void *CocktailSort(void *arg)
 
         if (id == 0)
         {
-            for (int i = 0; i < NUM_THREADS; ++i)
+            for (int i = 0; i < NUM_THREADS - 1; ++i)
             {
                 int index = start + (i + 1) * chunkSize - 1;
 
@@ -166,7 +167,7 @@ int main()
 
         if (r)
         {
-            cout << "Eroare la crearea thread-ului " << id << "\n";
+            g << "Eroare la crearea thread-ului " << id << "\n";
             exit(-1);
         }
     }
@@ -177,15 +178,15 @@ int main()
 
         if (r)
         {
-            cout << "Eroare la inchiderea thread-ului " << id << "\n";
+            g << "Eroare la inchiderea thread-ului " << id << "\n";
             exit(-1);
         }
     }
 
     t2 = clock();
 
-    cout.precision(10);
-    cout << "Timpul de executie pthreads este: " << fixed << double(t2 - t1) / CLOCKS_PER_SEC << '\n';
+    g.precision(10);
+    g << "Timpul de executie pthreads este: " << fixed << double(t2 - t1) / CLOCKS_PER_SEC << '\n';
 
     printArray(a, n);
     pthread_barrier_destroy(&barrier);

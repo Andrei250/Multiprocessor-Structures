@@ -4,15 +4,17 @@
 using namespace std;
 
 ifstream f("input.txt");
+ofstream g("openmp.txt");
 
 int a[1000001];
 int n;
 
+// metoda care afiseaza array-ul
 void printArray(int a[], int n)
 {
     for (int i = 0; i < n; i++)
-        cout << a[i] << " ";
-    cout << '\n';
+        g << a[i] << " ";
+    g << '\n';
 }
 
 void CocktailSort()
@@ -134,7 +136,7 @@ int main()
 
     t1 = omp_get_wtime() - t1;
 
-    cout << "Timp de executie sortare:" << t1 << '\n';
+    g << "Timp de executie sortare:" << t1 << '\n';
 
     printArray(a, n);
 
