@@ -8,7 +8,6 @@ using namespace std;
 ifstream f("input.txt");
 ofstream g("mpi.txt");
 
-
 int a[1000001];
 int n;
 int start, stop;
@@ -62,7 +61,7 @@ void masterNode()
 
         for (int i = 1; i < processes; ++i)
         {
-            int chunkSize = (stop - start - 1) / (processes - 1);
+            int chunkSize = (stop - start + 1) / (processes - 1);
             int inceput, sfarsit;
 
             inceput = start + (i - 1) * chunkSize;
@@ -80,7 +79,7 @@ void masterNode()
 
         for (int i = 1; i < processes; ++i)
         {
-            int chunkSize = (stop - start - 1) / (processes - 1);
+            int chunkSize = (stop - start + 1) / (processes - 1);
             int inceput, sfarsit, answer;
 
             inceput = start + (i - 1) * chunkSize;
@@ -99,7 +98,7 @@ void masterNode()
 
         for (int i = 1; i < processes; ++i)
         {
-            int chunkSize = (stop - start - 1) / (processes - 1);
+            int chunkSize = (stop - start + 1) / (processes - 1);
             int inceput, sfarsit, answer;
 
             inceput = start + (i - 1) * chunkSize;
@@ -135,7 +134,7 @@ void masterNode()
     printArray(a, n);
 }
 
-// Nodul worker care pune maximul din bucata lui la finalul array-ului si 
+// Nodul worker care pune maximul din bucata lui la finalul array-ului si
 // minimul la inceputul array-ului
 void workerNode()
 {

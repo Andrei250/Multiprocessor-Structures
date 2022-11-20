@@ -8,11 +8,47 @@ Am ales problema CocktailSort
 
 Pentru MPI:
 - Am impartit procesele in Master si Workers.
-- Masterul se ocupa de citirea initiala a vectorului. Apoi el va imparti la workeri
-treaba in functie de indexul acestora. Trimite doar bucata de vector care trebuie sortata.
-- Fiecare worker aduce cel mai mare element din array la final si cel mai mic la inceput
-apoi transmit inapoi la master bucata de array modificat.
-- Masterul ia maximul dintre acestea si il pune la final si minimul il pune la inceput. 
-Apoi verifica daca au fost facute schimbari si le transmite workerilor daca trebuie
-sa continue.
+- Masterul se ocupa de citirea initiala a vectorului. Apoi el va imparti la
+  workeri treaba in functie de indexul acestora. Trimite doar bucata de vector
+  care trebuie sortata.
+- Fiecare worker aduce cel mai mare element din array la final si cel mai mic
+  la inceput apoi transmit inapoi la master bucata de array modificat.
+- Masterul ia maximul dintre acestea si il pune la final si minimul il
+  pune la inceput.
+  Apoi verifica daca au fost facute schimbari si le transmite workerilor
+  daca trebuiesa continue.
 - La final nodul master afiseaza rezultatul.
+
+
+Pentru Pthreads si OpenMP:
+- La fel ca la MPi am impartit totul pe intervale array-ul si am pus pe fiecare
+  interval cel mai mare element la final si cel mai mic la inceput
+- Thread-ul master se va ocupa de realizarea maximului dintre maxime si a
+  minimului dintre minime si le va pune la finalul respectiv la inceputul
+  array-ului.
+- totul se repeta pana cand elementele sunt in ordine.
+
+
+Pentru varianta hibrida ( Openmp - mpi ):
+- AM facut o combinatie intre MPI si OpenMP, deoarece s-a dovedit ca OpenMP
+  este mai performant decat pthreads. AM mers pe aceeasi idee de a imparti pe
+  taskuri pentru fiecare proces, ia rin cadrul fiecarul proces se divizeaza
+  totul in taskuri mai mici pe thread-uri. Principiul este acelasi ca mai sus.
+
+RULARE:
+- Rulati make build pentru a face build la tot
+- Puteti rula make run-all pentru a rula toate sau puteti rula fiecare
+  individual
+- Am adaugat si un Dockerfile si docker-compose.yml, deoarece MAC-ul face
+  figuri si a trebuit sa testez intr-un environment de linux. Cum urasc
+  masinile virtuale, variante simpla si performanta era un docker
+  container. Pentru rulare, folositi "docker-compose build" urmat de
+  "docker-compose up - d" si apoi intrati in container si rulati
+  comenzile de make.
+
+P.S.:
+- Am atasat 3 fisiere de input. Unul cu input foarte mic (30 elemente),
+  unul cu putine elemente ( 10k ) si unul mare de 100k elemente.
+  Toate fisierele sursa ruleaza, insa unele (pthreads) pot dura mai mult
+  la cele 100k elemente.
+- In prezentarea din tema 3 voi reveni cu grafice si explicatii detaliate.

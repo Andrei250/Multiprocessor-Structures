@@ -26,15 +26,16 @@ void CocktailSort()
     while (swapped)
     {
         swapped = false;
+
 #pragma omp parallel
         {
             int threadNum = omp_get_thread_num();
             int threads = omp_get_num_threads();
-            int chunkSize = (end - start + 1) / threads;
-            int left = start + threadNum * chunkSize;
+            int chunkSize = max(1, (end - start + 1) / threads);
+            int left = min(start + threadNum * chunkSize, end);
             int right = min(start + (threadNum + 1) * chunkSize - 1, end);
 
-            if (threadNum == omp_get_num_threads() - 1)
+            if (threadNum == threads - 1)
             {
                 right = end;
             }
@@ -54,7 +55,7 @@ void CocktailSort()
             {
                 for (int i = 0; i < threads - 1; ++i)
                 {
-                    int index = start + (i + 1) * chunkSize - 1;
+                    int index = min(start + (i + 1) * chunkSize - 1, end);
 
                     if (a[index] > a[end])
                     {
@@ -65,9 +66,6 @@ void CocktailSort()
             }
         }
 
-        if (!swapped)
-            break;
-
         swapped = false;
         --end;
 
@@ -75,16 +73,14 @@ void CocktailSort()
         {
             int threadNum = omp_get_thread_num();
             int threads = omp_get_num_threads();
-            int chunkSize = (end - start + 1) / threads;
-            int left = start + threadNum * chunkSize;
-            int right = start + (threadNum + 1) * chunkSize - 1;
+            int chunkSize = max(1, (end - start + 1) / threads);
+            int left = min(start + threadNum * chunkSize, end);
+            int right = min(start + (threadNum + 1) * chunkSize - 1, end);
 
-            if (threadNum == omp_get_num_threads() - 1)
+            if (threadNum == threads - 1)
             {
                 right = end;
             }
-
-#pragma omp barrier
 
             for (int i = right - 1; i >= left; --i)
             {
@@ -101,7 +97,7 @@ void CocktailSort()
 
                 for (int i = 1; i < threads; ++i)
                 {
-                    int index = start + i * chunkSize;
+                    int index = min(start + i * chunkSize, end);
 
                     if (a[index] < a[start])
                     {
@@ -130,13 +126,7 @@ int main()
 {
     read();
 
-    double t1 = omp_get_wtime();
-
     CocktailSort();
-
-    t1 = omp_get_wtime() - t1;
-
-    g << "Timp de executie sortare:" << t1 << '\n';
 
     printArray(a, n);
 

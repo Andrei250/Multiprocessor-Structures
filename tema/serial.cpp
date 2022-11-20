@@ -67,13 +67,8 @@ void read()
 int main()
 {
     read();
-    double t1 = omp_get_wtime();
 
     CocktailSort(a, n);
-
-    t1 = omp_get_wtime() - t1;
-
-    g << "Timp de executie sortare:" << t1 << '\n';
 
     printArray(a, n);
     return 0;

@@ -20,5 +20,7 @@ run-mpi: cocktail-mpi.cpp
 run-hybrid: cocktail-mpi-openmp.cpp
 	mpirun -np 4 ./cocktail-mpi-openmp
 
+run-all: run-serial run-openmp run-pthread run-mpi run-hybrid
+
 clean:
 	rm -rf cocktail-openmp serial cocktail-pthreads cocktail-mpi cocktail-mpi-openmp

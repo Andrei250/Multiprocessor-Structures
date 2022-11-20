@@ -9,7 +9,6 @@ using namespace std;
 ifstream f("input.txt");
 ofstream g("hybrid.txt");
 
-
 int a[1000001];
 int n;
 int start, stop;
@@ -41,18 +40,13 @@ void masterNode()
     start = 0;
     stop = n - 1;
 
-    for (int i = 1; i < processes; ++i)
-    {
-        MPI_Send(&n, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
-    }
-
     while (swapped)
     {
         swapped = 0;
 
         for (int i = 1; i < processes; ++i)
         {
-            int chunkSize = (stop - start - 1) / (processes - 1);
+            int chunkSize = (stop - start + 1) / (processes - 1);
             int inceput, sfarsit;
 
             inceput = start + (i - 1) * chunkSize;
@@ -70,7 +64,7 @@ void masterNode()
 
         for (int i = 1; i < processes; ++i)
         {
-            int chunkSize = (stop - start - 1) / (processes - 1);
+            int chunkSize = (stop - start + 1) / (processes - 1);
             int inceput, sfarsit, answer;
 
             inceput = start + (i - 1) * chunkSize;
@@ -89,7 +83,7 @@ void masterNode()
 
         for (int i = 1; i < processes; ++i)
         {
-            int chunkSize = (stop - start - 1) / (processes - 1);
+            int chunkSize = (stop - start + 1) / (processes - 1);
             int inceput, sfarsit, answer;
 
             inceput = start + (i - 1) * chunkSize;
@@ -128,7 +122,6 @@ void masterNode()
 void workerNode()
 {
     int left, right;
-    MPI_Recv(&n, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
 
     while (swapped)
     {
@@ -142,11 +135,11 @@ void workerNode()
         {
             int threadNum = omp_get_thread_num();
             int threads = omp_get_num_threads();
-            int chunkSize = (right - left + 1) / threads;
-            int leftV = threadNum * chunkSize;
-            int rightV = (threadNum + 1) * chunkSize - 1;
+            int chunkSize = max(1, (right - left + 1) / threads);
+            int leftV = min(threadNum * chunkSize, right - left);
+            int rightV = min((threadNum + 1) * chunkSize - 1, right - left);
 
-            if (threadNum == omp_get_num_threads() - 1)
+            if (threadNum == threads - 1)
             {
                 rightV = right - left;
             }
@@ -156,7 +149,7 @@ void workerNode()
                 if (a[i] > a[i + 1])
                 {
                     swap(a[i], a[i + 1]);
-                    swapped = true;
+                    swapped = 1;
                 }
             }
 
@@ -166,13 +159,13 @@ void workerNode()
             {
                 for (int i = 0; i < threads - 1; ++i)
                 {
-                    int index = (i + 1) * chunkSize - 1;
+                    int index = min((i + 1) * chunkSize - 1, right - left);
 
                     if (a[index] > a[right - left])
                     {
 
                         swap(a[index], a[right - left]);
-                        swapped = true;
+                        swapped = 1;
                     }
                 }
             }
@@ -183,9 +176,8 @@ void workerNode()
             {
                 if (a[i] > a[i + 1])
                 {
-
                     swap(a[i], a[i + 1]);
-                    swapped = true;
+                    swapped = 1;
                 }
             }
 #pragma omp barrier
@@ -195,12 +187,12 @@ void workerNode()
 
                 for (int i = 1; i < threads; ++i)
                 {
-                    int index = i * chunkSize;
+                    int index = min(i * chunkSize, right - left);
 
                     if (a[index] < a[0])
                     {
                         swap(a[index], a[0]);
-                        swapped = true;
+                        swapped = 1;
                     }
                 }
             }

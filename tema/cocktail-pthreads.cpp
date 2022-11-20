@@ -10,7 +10,7 @@ ofstream g("pthreads.txt");
 
 int a[1000001];
 int n;
-int start, stop;
+volatile int start, stop;
 volatile bool swapped = true;
 
 pthread_barrier_t barrier;
@@ -54,6 +54,7 @@ void *CocktailSort(void *arg)
         {
             if (a[i] > a[i + 1])
             {
+
                 swap(a[i], a[i + 1]);
                 swapped = true;
             }
@@ -103,7 +104,9 @@ void *CocktailSort(void *arg)
         {
             if (a[i] > a[i + 1])
             {
+                pthread_mutex_lock(&mtx);
                 swap(a[i], a[i + 1]);
+                pthread_mutex_unlock(&mtx);
                 swapped = true;
             }
         }
@@ -158,8 +161,6 @@ int main()
 
     start = 0, stop = n - 1;
 
-    t1 = clock();
-
     for (id = 0; id < NUM_THREADS; id++)
     {
         arguments[id] = id;
@@ -182,11 +183,6 @@ int main()
             exit(-1);
         }
     }
-
-    t2 = clock();
-
-    g.precision(10);
-    g << "Timpul de executie pthreads este: " << fixed << double(t2 - t1) / CLOCKS_PER_SEC << '\n';
 
     printArray(a, n);
     pthread_barrier_destroy(&barrier);
