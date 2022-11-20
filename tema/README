@@ -1,10 +1,6 @@
-Pthreads e jalnic
-opneMP e bun ( mai da rateuri )
-hybrid nu merge
-
 Dumitrescu Andrei 341C1
 
-Am ales problema CocktailSort
+Am ales problema CocktailSort.
 
 Pentru MPI:
 - Am impartit procesele in Master si Workers.
