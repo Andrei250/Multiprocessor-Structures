@@ -7,6 +7,6 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LANG en_US.utf8
 
 RUN apt update && apt install make -y && apt install build-essential -y && apt install manpages-dev -y \
-    && apt install mpich -yq && apt-get install -y valgrind
+    && apt install mpich -yq
 
 WORKDIR "/workspace"

@@ -1,0 +1,17 @@
+Dumitrescu Andrei 341C1
+
+Pentru fiecare thread am calcualt un start si un stop si am adus maximul pe ultima pozitie din
+bucata lor. Apoi, threadul master va lua maximul dintre maxime.
+
+Am atasat si un dockerfile si un docekr-compose. le folosesc, deoarece pe MAC sunt unele probleme
+cu pthreads si pachetele pentru openmp si mpi. 
+
+Instructiuni de rulare program:
+- make build
+- make run
+
+In cazul in care doriti sa folositi dockerul:
+- docker-compose build
+- docker-compose up -d
+- intrati in container si rulati comenzile de make
+- la final inchideti container-ul => docker-compose down

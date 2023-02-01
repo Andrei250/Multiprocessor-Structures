@@ -116,7 +116,7 @@ void masterNode()
         }
     }
 
-    printArray(a, n);
+    // printArray(a, n);
 }
 
 void workerNode()
@@ -206,7 +206,8 @@ void workerNode()
 
 int main(int argc, char *argv[])
 {
-    MPI_Init(&argc, &argv);
+    int threadUsage;
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &threadUsage);
     MPI_Comm_size(MPI_COMM_WORLD, &processes);
     MPI_Comm_rank(MPI_COMM_WORLD, &process_id);
 

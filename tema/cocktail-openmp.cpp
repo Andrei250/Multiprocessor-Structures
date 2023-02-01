@@ -128,7 +128,7 @@ int main()
 
     CocktailSort();
 
-    printArray(a, n);
+    // printArray(a, n);
 
     return 0;
 }

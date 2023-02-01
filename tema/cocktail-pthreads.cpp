@@ -184,7 +184,7 @@ int main()
         }
     }
 
-    printArray(a, n);
+    // printArray(a, n);
     pthread_barrier_destroy(&barrier);
     pthread_mutex_destroy(&mtx);
 

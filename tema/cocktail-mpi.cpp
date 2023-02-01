@@ -131,7 +131,7 @@ void masterNode()
         }
     }
 
-    printArray(a, n);
+    // printArray(a, n);
 }
 
 // Nodul worker care pune maximul din bucata lui la finalul array-ului si

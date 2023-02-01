@@ -70,6 +70,5 @@ int main()
 
     CocktailSort(a, n);
 
-    printArray(a, n);
     return 0;
 }
